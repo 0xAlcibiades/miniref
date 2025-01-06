@@ -11,8 +11,6 @@ references:
   - category-theory-introduction
 ---
 
-# What is a Monad? (And Why Should You Care?)
-
 Alright, let's get this straight: **monads** are weird. They sound fancy. They come with terms like "bind" and "unit," which sound like they're straight out of a sci-fi novel. But bear with me. By the end of this, you'll have a solid understanding of what a monad _really_ is — and why you should care about it, even if you're not writing Haskell for a living.
 
 ## The 101: What Actually is a Monad?

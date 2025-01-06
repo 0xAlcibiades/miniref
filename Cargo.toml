@@ -7,28 +7,28 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-leptos = { version = "0.7.0", features = ["nightly"] }
-leptos_router = { version = "0.7.0", features = ["nightly"] }
 # Axum and leptos_axum must have a version match
 axum = { version = "0.7.0", optional = true }
 console_error_panic_hook = "0.1"
+gray_matter = { version = "0.2.8", optional = true }
+html-escape = { version = "0.2.13", optional = true }
+http = "1"
+js-sys = "0.3.76"
+katex = { version = "0.4.6", features = ["quick-js"], optional = true }
+leptos = { version = "0.7.0", features = ["nightly"] }
 leptos_axum = { version = "0.7.0", optional = true }
 leptos_meta = { version = "0.7.0" }
+leptos_router = { version = "0.7.0", features = ["nightly"] }
+parking_lot = { version = "0.12.3", optional = true }
+regex = { version = "1.11.1", optional = true }
+reqwest = { version = "0.12.12", features = ["json"], optional = true }
+serde = { version = "1.0.217", features = ["derive"] }
+syntect = { version = "5.2.0", optional = true }
+thiserror = "1"
 tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
 tower = { version = "0.5.2", optional = true }
 tower-http = { version = "0.6.2", features = ["fs"], optional = true }
 wasm-bindgen = "=0.2.99"
-thiserror = "1"
-http = "1"
-serde = { version = "1.0.217", features = ["derive"]}
-gray_matter = { version = "0.2.8", optional = true }
-reqwest = { version = "0.12.12", features = ["json"], optional = true }
-katex = { version = "0.4.6", features = ["quick-js"], optional = true }
-regex = { version = "1.11.1", optional = true }
-syntect = { version = "5.2.0", optional = true }
-html-escape = { version = "0.2.13", optional = true }
-web-sys = "0.3.76"
-js-sys = "0.3.76"
 
 [dependencies.markdown]
 version = "1.0.0-alpha.21"
@@ -38,6 +38,13 @@ optional = true
 version = "2.0"
 optional = true
 
+[dependencies.web-sys]
+version = "0.3"
+features = [
+    "Element",
+    "NodeList",
+    "HtmlElement"
+]
 
 [features]
 hydrate = ["leptos/hydrate"]
@@ -46,6 +53,7 @@ ssr = [
     "dep:gray_matter",
     "dep:katex",
     "dep:regex",
+    "dep:parking_lot",
     "dep:syntect",
     "dep:html-escape",
     "dep:markdown",

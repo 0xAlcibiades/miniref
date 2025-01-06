@@ -23,11 +23,11 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family:
-          "Inter",
-          -apple-system,
-          BlinkMacSystemFont,
-          system-ui,
-          sans-serif;
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    system-ui,
+    sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -261,7 +261,12 @@ body {
     margin: 2rem 0;
 
     // Headings
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       color: var(--accent);
       margin: 2rem 0 1rem 0;
       font-weight: 500;
@@ -284,7 +289,8 @@ body {
     }
 
     // Code blocks and inline code
-    pre, code {
+    pre,
+    code {
       font-family: "JetBrains Mono", monospace;
       background: var(--bg-primary);
       border-radius: 3px;
@@ -318,21 +324,51 @@ body {
           word-wrap: normal;
 
           // Base16 Ocean Dark theme colors
-          .comment { color: #65737e; }
-          .keyword { color: #b48ead; }
-          .string { color: #a3be8c; }
-          .number { color: #d08770; }
-          .attribute { color: #96b5b4; }
-          .symbol { color: #d08770; }
-          .type { color: #ebcb8b; }
-          .function { color: #8fa1b3; }
-          .macro { color: #96b5b4; }
-          .constant { color: #d08770; }
-          .lifetime { color: #b48ead; }
-          .self { color: #d08770; }
-          .module { color: #8fa1b3; }
-          .punctuation { color: #c0c5ce; }
-          .operator { color: #c0c5ce; }
+          .comment {
+            color: #65737e;
+          }
+          .keyword {
+            color: #b48ead;
+          }
+          .string {
+            color: #a3be8c;
+          }
+          .number {
+            color: #d08770;
+          }
+          .attribute {
+            color: #96b5b4;
+          }
+          .symbol {
+            color: #d08770;
+          }
+          .type {
+            color: #ebcb8b;
+          }
+          .function {
+            color: #8fa1b3;
+          }
+          .macro {
+            color: #96b5b4;
+          }
+          .constant {
+            color: #d08770;
+          }
+          .lifetime {
+            color: #b48ead;
+          }
+          .self {
+            color: #d08770;
+          }
+          .module {
+            color: #8fa1b3;
+          }
+          .punctuation {
+            color: #c0c5ce;
+          }
+          .operator {
+            color: #c0c5ce;
+          }
         }
       }
     }
@@ -347,7 +383,8 @@ body {
     }
 
     // Lists
-    ul, ol {
+    ul,
+    ol {
       margin: 1rem 0 1rem 1.5rem;
 
       li {

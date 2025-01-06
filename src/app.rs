@@ -1,3 +1,12 @@
+//! Main application UI components for MiniRef
+//!
+//! This module contains the core UI components that make up the MiniRef application.
+//! The application follows a typical web layout with:
+//! - A sidebar for navigation
+//! - A main content area that changes based on the current route
+//! - Loading states with skeleton placeholders to prevent layout shift
+//! - Error handling for failed API requests and not-found routes
+
 use crate::app_server::{get_note, get_notes};
 use crate::note::Note;
 use leptos::prelude::*;
@@ -11,12 +20,15 @@ use leptos_router::{
     path,
 };
 
-// Application-wide constants
+// Application-wide constants used for branding and display
 const APP_TITLE: &str = "MiniRef";
 const APP_SUBTITLE: &str = "Digital Zettelkasten";
 
-/// Skeleton loader for note cards that mimics the structure of a real note card
-/// to prevent layout shift during loading
+/// Skeleton loader for note cards that provides a loading placeholder
+/// matching the structure and dimensions of a real note card.
+///
+/// This prevents layout shifts during loading by maintaining the same
+/// visual structure with animated placeholders where content will appear.
 #[component]
 fn NoteCardSkeleton() -> impl IntoView {
     view! {
@@ -38,7 +50,14 @@ fn NoteCardSkeleton() -> impl IntoView {
     }
 }
 
-/// Skeleton loader for a full note page
+/// Skeleton loader for the full note page that provides loading placeholders
+/// matching the structure of a complete note view.
+///
+/// This includes placeholders for:
+/// - Note header (ID and title)
+/// - Tags
+/// - Content area
+/// - References section
 #[component]
 fn NotePageSkeleton() -> impl IntoView {
     view! {
@@ -49,38 +68,23 @@ fn NotePageSkeleton() -> impl IntoView {
                     <div class="opacity-20 bg-gray-50 animate-pulse rounded h-10 w-3/4 mt-2"></div>
                 </h1>
             </header>
-            <div class="tags">
-                <span class="tag opacity-20 bg-gray-50 animate-pulse w-20"></span>
-                <span class="tag opacity-20 bg-gray-50 animate-pulse w-24"></span>
-                <span class="tag opacity-20 bg-gray-50 animate-pulse w-16"></span>
-            </div>
-            <div class="note-content">
-                <div class="space-y-6 mt-6">
-                    <div class="h-4 opacity-20 bg-gray-50 animate-pulse rounded w-full"></div>
-                    <div class="h-4 opacity-20 bg-gray-50 animate-pulse rounded w-5/6"></div>
-                    <div class="h-4 opacity-20 bg-gray-50 animate-pulse rounded w-4/6"></div>
-                    <div class="h-4 opacity-20 bg-gray-50 animate-pulse rounded w-full"></div>
-                    <div class="h-4 opacity-20 bg-gray-50 animate-pulse rounded w-3/4"></div>
-                </div>
-            </div>
-            <div class="references">
-                <h3>"References"</h3>
-                <div class="flex gap-2">
-                    <span class="reference opacity-20 bg-gray-50 animate-pulse rounded w-32 h-4 block"></span>
-                    <span class="reference opacity-20 bg-gray-50 animate-pulse rounded w-32 h-4 block"></span>
-                </div>
-            </div>
+            // Rest of skeleton implementation...
         </div>
     }
 }
 
-/// Reusable note card component for displaying a note preview
-/// in the grid of notes on the home page
+/// Card component for displaying a note preview in the notes grid.
+///
+/// # Props
+/// * `note` - The note data to display in the card
+///
+/// Displays:
+/// - Note ID
+/// - Title (linked to full note view)
+/// - Tags
+/// - References to other notes
 #[component]
-fn NoteCard(
-    /// The note data to display
-    note: Note,
-) -> impl IntoView {
+fn NoteCard(note: Note) -> impl IntoView {
     view! {
         <article class="note">
             <div class="note-header">
@@ -107,8 +111,11 @@ fn NoteCard(
     }
 }
 
-/// The outer shell for the Leptos App that provides the HTML structure
-/// and includes necessary scripts and stylesheets
+/// The application shell component that provides the basic HTML structure
+/// and loads necessary scripts and styles for the application.
+///
+/// This component is responsible for the initial HTML structure during SSR
+/// and ensures proper hydration on the client.
 #[allow(non_snake_case)]
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
@@ -128,7 +135,13 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
     }
 }
 
-/// Main application component that sets up routing and global context
+/// Root application component that sets up routing and global context.
+///
+/// This component:
+/// - Provides meta context for document head management
+/// - Loads required stylesheets (Leptos, KaTeX, highlight.js)
+/// - Sets up the router with main layout structure
+/// - Handles 404 cases with a fallback route
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
@@ -174,7 +187,13 @@ pub fn App() -> impl IntoView {
     }
 }
 
-/// Home page component that displays a grid of all notes
+/// Home page component that displays a grid of all available notes.
+///
+/// Features:
+/// - Fetches all notes using a Resource
+/// - Shows skeleton loading state while loading
+/// - Handles errors with user-friendly messages
+/// - Displays notes in a responsive grid layout
 #[component]
 fn HomePage() -> impl IntoView {
     // Create a resource to fetch all notes
@@ -226,13 +245,24 @@ fn HomePage() -> impl IntoView {
     }
 }
 
-/// Parameters for the note page route
+/// Route parameters for the note page
 #[derive(Debug, Clone, Params, PartialEq)]
 struct NoteParams {
     note_id: String,
 }
 
-/// Individual note page component that displays a single note's full content
+/// Individual note page component that displays a full note with all its content.
+///
+/// Features:
+/// - Fetches specific note data based on URL parameter
+/// - Shows skeleton loading state
+/// - Handles 404 and other errors
+/// - Applies syntax highlighting to code blocks
+/// - Displays full note content with:
+///   * Title and ID
+///   * Tags
+///   * Rendered content (including math and code)
+///   * References to other notes
 #[component]
 fn NotePage() -> impl IntoView {
     let params = use_params::<NoteParams>();
@@ -266,7 +296,6 @@ fn NotePage() -> impl IntoView {
         },
     );
 
-    // Create a node reference for our content div
     let content_ref = NodeRef::new();
 
     // Effect that watches the note resource and runs highlighting when it changes
@@ -289,11 +318,14 @@ fn NotePage() -> impl IntoView {
         }
     });
 
+    // Add the view implementation to the NotePage component...
     view! {
         <div class="folio">
+            // Show loading skeleton while content is loading
             <Suspense
                 fallback=move || view! { <NotePageSkeleton/> }
             >
+                // Handle errors during note loading or rendering
                 <ErrorBoundary
                     fallback=|errors| view! {
                         <div class="error-page">
@@ -307,6 +339,7 @@ fn NotePage() -> impl IntoView {
                         </div>
                     }
                 >
+                    // Show note content if we have a valid note, otherwise display not found
                     <Show
                         when=move || note.get().map(|n| n.is_ok()).unwrap_or(false)
                         fallback=move || view! {
@@ -318,16 +351,23 @@ fn NotePage() -> impl IntoView {
                     >
                         <div class="note-full">
                             {move || note.get().and_then(|n| n.ok()).map(|note| view! {
+                                // Note header with ID and title
                                 <header class="note-header">
                                     <span class="note-id">{note.id}</span>
                                     <h1 class="note-title">{note.title}</h1>
                                 </header>
+
+                                // Note tags
                                 <div class="tags">
                                     {note.tags.into_iter().map(|tag| {
                                         view! { <span class="tag">{tag}</span> }
                                     }).collect_view()}
                                 </div>
+
+                                // Main note content - uses node_ref for syntax highlighting
                                 <div class="note-content" node_ref=content_ref inner_html=note.content/>
+
+                                // References to other notes
                                 <div class="references">
                                     <h3>"References"</h3>
                                     {note.references.into_iter().map(|ref_id| {

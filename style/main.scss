@@ -1,0 +1,457 @@
+// Root variables for consistent theming
+:root {
+  --bg-primary: #0f0f0f;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #e0e0e0;
+  --text-secondary: #888888;
+  --accent: #60a5fa;
+  --border: #2a2a2a;
+  --sidebar-width: 250px;
+  --content-max-width: 1400px;
+  --note-max-width: 800px;
+}
+
+// Reset defaults
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// Base body styles
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          system-ui,
+          sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Main layout container
+.codex {
+  min-height: 100vh;
+}
+
+// Sidebar navigation
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+
+  // Logo/brand element
+  .sigil {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    opacity: 0.8;
+    border-radius: 2px;
+  }
+
+  // Navigation links
+  .nav-links {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.15s ease;
+      padding: 0.5rem 0;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+
+      &[aria-current="page"] {
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+// Main content area
+.folio {
+  margin-left: var(--sidebar-width);
+  padding: 3rem 4rem;
+  max-width: var(--content-max-width);
+
+  // Page header
+  .header {
+    margin-bottom: 3rem;
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--accent);
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+// Grid layout for notes
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+// Note card styles
+.note {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  // Note card header
+  .note-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.75rem;
+
+    .note-id {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      opacity: 0.8;
+    }
+  }
+
+  // Note title
+  .note-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+    line-height: 1.4;
+
+    a {
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+}
+
+// Shared styles between note cards and full notes
+.note,
+.note-full {
+  // Tag styling
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    .tag {
+      background: rgba(96, 165, 250, 0.1);
+      color: var(--accent);
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: rgba(96, 165, 250, 0.15);
+      }
+    }
+  }
+
+  // Reference links
+  .references {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+
+    h3 {
+      width: 100%;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    a {
+      text-decoration: none;
+
+      .reference {
+        color: var(--accent);
+        font-size: 0.85rem;
+        opacity: 0.85;
+        transition: opacity 0.15s ease;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// Full note view styles
+.note-full {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2rem;
+  max-width: var(--note-max-width);
+  margin: 0 auto;
+
+  // Full note header
+  .note-header {
+    margin-bottom: 2rem;
+
+    .note-id {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      opacity: 0.8;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .note-title {
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.3;
+    }
+  }
+
+  // Note content styles
+  .note-content {
+    color: var(--text-primary);
+    line-height: 1.8;
+    margin: 2rem 0;
+
+    // Headings
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--accent);
+      margin: 2rem 0 1rem 0;
+      font-weight: 500;
+    }
+
+    // Paragraphs
+    p {
+      margin: 1.5rem 0;
+    }
+
+    // Links
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dotted var(--accent);
+
+      &:hover {
+        border-bottom-style: solid;
+      }
+    }
+
+    // Code blocks and inline code
+    pre, code {
+      font-family: "JetBrains Mono", monospace;
+      background: var(--bg-primary);
+      border-radius: 3px;
+    }
+
+    // Inline code
+    code {
+      padding: 0.2em 0.4em;
+      font-size: 0.9em;
+    }
+
+    // Code blocks
+    pre {
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+
+      // Remove padding from code inside pre
+      code {
+        background: none;
+        padding: 0;
+
+        // Syntect syntax highlighting styles
+        &[class*="language-"] {
+          display: block;
+          tab-size: 2;
+          hyphens: none;
+          white-space: pre;
+          word-spacing: normal;
+          word-break: normal;
+          word-wrap: normal;
+
+          // Base16 Ocean Dark theme colors
+          .comment { color: #65737e; }
+          .keyword { color: #b48ead; }
+          .string { color: #a3be8c; }
+          .number { color: #d08770; }
+          .attribute { color: #96b5b4; }
+          .symbol { color: #d08770; }
+          .type { color: #ebcb8b; }
+          .function { color: #8fa1b3; }
+          .macro { color: #96b5b4; }
+          .constant { color: #d08770; }
+          .lifetime { color: #b48ead; }
+          .self { color: #d08770; }
+          .module { color: #8fa1b3; }
+          .punctuation { color: #c0c5ce; }
+          .operator { color: #c0c5ce; }
+        }
+      }
+    }
+
+    // Blockquotes
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 1.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    // Lists
+    ul, ol {
+      margin: 1rem 0 1rem 1.5rem;
+
+      li {
+        margin: 0.5rem 0;
+      }
+    }
+  }
+}
+
+// Loading state
+.loading {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 4rem 2rem;
+  font-size: 0.9rem;
+}
+
+// Error page
+.error-page {
+  text-align: center;
+  padding: 4rem 2rem;
+  max-width: var(--note-max-width);
+  margin: 0 auto;
+
+  h1 {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--accent);
+      color: var(--bg-primary);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .folio {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .codex {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 1rem;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+
+    .nav-links {
+      margin-top: 1rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  }
+
+  .folio {
+    margin-left: 0;
+    padding: 1.5rem;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .note-full {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .folio {
+    padding: 1rem;
+  }
+
+  .note,
+  .note-full {
+    padding: 1rem;
+  }
+
+  .note-full .note-header .note-title {
+    font-size: 1.5rem;
+  }
+}

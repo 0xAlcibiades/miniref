@@ -1,63 +1,98 @@
 # MiniRef
 
-An example project using leptos to build a full stack server side rendered web
-application which loads data from an API. It's called miniref because it's a
-minimal version of a zettlekasten reference system.
+A Zettelkasten note-taking system built with Leptos, featuring server-side rendering and WebAssembly support.
 
-## Running the project
+## Features
+
+**Core System**
+
+- Server-side rendering with Axum web framework
+- WebAssembly-powered frontend
+- File-based note storage system
+- REST API for note management
+
+**API Endpoints**
+
+- `GET /api/notes` - Retrieve list of all notes
+- `GET /api/notes/:id` - Fetch specific note by ID
+
+## Development Setup
+
+**Required Tools**
+
+```bash
+# Install Rust nightly
+rustup toolchain install nightly --allow-downgrade
+
+# Add WebAssembly target
+rustup target add wasm32-unknown-unknown
+
+# Install cargo-generate
+cargo install cargo-generate
+
+# Install SASS compiler
+npm install -g sass
+
+# Install end-to-end testing dependencies
+cd end2end && npm install
+```
+
+## Project Structure
+
+```
+miniref/
+├── src/
+│   ├── main.rs      # Server setup & API routes
+│   ├── app/         # Leptos components
+│   ├── note/        # Note management
+│   └── lib.rs       # Core functionality
+├── notes/           # Note storage directory
+└── end2end/         # Test suite
+```
+
+## Development Workflow
+
+**Running Development Server**
 
 ```bash
 cargo leptos watch
 ```
 
-## Installing Additional Tools
-
-By default, `cargo-leptos` uses `nightly` Rust, `cargo-generate`, and `sass`. If you run into any trouble, you may need to install one or more of these tools.
-
-1. `rustup toolchain install nightly --allow-downgrade` - make sure you have Rust nightly
-2. `rustup target add wasm32-unknown-unknown` - add the ability to compile Rust to WebAssembly
-3. `cargo install cargo-generate` - install `cargo-generate` binary (should be installed automatically in future)
-4. `npm install -g sass` - install `dart-sass` (should be optional in future
-5. Run `npm install` in end2end subdirectory before test
-
-## Compiling for Release
+**Building for Release**
 
 ```bash
 cargo leptos build --release
 ```
 
-Will generate your server binary in target/server/release and your site package in target/site
+## Testing
 
-## Testing the Project
+**Running Tests**
 
 ```bash
+# Development tests
 cargo leptos end-to-end
-```
 
-```bash
+# Production tests
 cargo leptos end-to-end --release
 ```
 
-Cargo-leptos uses Playwright as the end-to-end test tool.  
-Tests are located in end2end/tests directory.
+## Production Deployment
 
-## Executing a Server on a Remote Machine Without the Toolchain
+**Required Files**
 
-After running a `cargo leptos build --release` the minimum files needed are:
+- Server binary: `target/server/release/miniref`
+- Site assets: `target/site/*`
 
-1. The server binary located in `target/server/release`
-2. The `site` directory and all files within located in `target/site`
+**Directory Structure**
 
-Copy these files to your remote server. The directory structure should be:
-
-```text
-miniref
-site/
+```
+miniref/
+└── site/
 ```
 
-Set the following environment variables (updating for your project as needed):
+**Environment Configuration**
 
-```sh
+```bash
 export LEPTOS_OUTPUT_NAME="miniref"
 export LEPTOS_SITE_ROOT="site"
 export LEPTOS_SITE_PKG_DIR="pkg"
@@ -65,4 +100,35 @@ export LEPTOS_SITE_ADDR="127.0.0.1:3000"
 export LEPTOS_RELOAD_PORT="3001"
 ```
 
-Finally, run the server binary.
+## Implementation Details
+
+**Server Features**
+
+- Axum-based web server with integrated routing
+- Note storage management system
+- JSON API responses
+- Error handling with proper HTTP status codes
+
+**Frontend Features**
+
+- Leptos components for UI
+- Hydration support for server-side rendered content
+- WebAssembly optimization
+- Fallback handlers for unmatched routes
+
+## Note Management
+
+The system uses a file-based note storage system located in the `./notes` directory. Notes are:
+
+- Loaded on server startup
+- Accessible via REST API
+- Managed through the NoteStore interface
+- Retrieved individually or as a complete list
+
+## Contributing
+
+1. Fork the repository
+2. Install all development dependencies
+3. Create a feature branch
+4. Add tests for new functionality
+5. Submit a pull request
